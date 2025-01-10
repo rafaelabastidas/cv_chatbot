@@ -40,6 +40,8 @@ cv_doc = "\n".join(
 
 # Step 2: Configure the generative AI model
 api_key = os.getenv('API_KEY')
+if api_key is None:
+    raise ValueError("API_KEY not found. Please set the environment variable.")
 genai.configure(api_key=api_key)
 
 generation_config = {
