@@ -3,6 +3,7 @@
 #streamlit run .\streamlit.py
 import streamlit as st
 import requests
+import os
 from io import BytesIO
 from PyPDF2 import PdfReader
 import google.generativeai as genai
