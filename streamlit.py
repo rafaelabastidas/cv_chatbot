@@ -38,9 +38,6 @@ cv_doc = "\n".join(
 )
 
 # Step 2: Configure the generative AI model
-with open('C:/Users/RAFAELAB/OneDrive - Inter-American Development Bank Group/Documents/PBLs/Depth/Data/google_api.txt', 'r') as file:
-    api_key = file.read().strip()
-
 genai.configure(api_key=api_key)
 
 generation_config = {
