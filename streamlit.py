@@ -38,6 +38,7 @@ cv_doc = "\n".join(
 )
 
 # Step 2: Configure the generative AI model
+api_key = os.getenv('API_KEY')
 genai.configure(api_key=api_key)
 
 generation_config = {
