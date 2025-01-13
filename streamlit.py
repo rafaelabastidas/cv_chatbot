@@ -83,7 +83,6 @@ example_question = st.selectbox(
         "Select an example question...",
         "What is Rafaela's educational background?",
         "What are Rafaela's key skills in data science?",
-        "Has Rafaela worked with multilateral development banks?",
         "What programming languages does Rafaela know?",
     ]
 )
