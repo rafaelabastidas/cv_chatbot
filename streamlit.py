@@ -79,9 +79,32 @@ Let's get started!
 question = st.text_input("Ask a question about the CV:")
 
 
-# Display the answer if a question is provided
-if question:
-    with st.spinner("Generating answer..."):
-        answer = query_cv_chatbot(question)
-    st.write("Answer:")
-    st.write(answer)
+# Dropdown menu for example questions
+st.markdown("### Example Questions:")
+example_question = st.selectbox(
+    "Select a question to see the answer:",
+    [
+        "Select an example question...",
+        "What is Rafaela's educational background?",
+        "What are Rafaela's key skills in data science?",
+        "Has Rafaela worked with multilateral development banks?",
+        "What programming languages does Rafaela know?",
+    ]
+)
+
+# Display the answer to the selected question
+if example_question != "Select an example question...":
+    answer = query_cv_chatbot(example_question)
+    st.markdown(f"**Answer:** {answer}")
+
+# Input box for custom user questions
+st.markdown("### Or ask your own question:")
+custom_question = st.text_input("Ask a question about the CV:")
+
+# Process the user question
+if custom_question:
+    custom_answer = query_cv_chatbot(custom_question)
+    st.markdown(f"**Answer:** {custom_answer}")
+
+
+
