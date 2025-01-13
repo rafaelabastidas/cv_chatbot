@@ -97,10 +97,6 @@ if example_question != "Select an example question...":
     answer = query_cv_chatbot(example_question)
     st.markdown(f"**Answer:** {answer}")
 
-# Input box for custom user questions
-st.markdown("### Or ask your own question:")
-custom_question = st.text_input("Ask a question about the CV:")
-
 # Process the user question
 if custom_question:
     custom_answer = query_cv_chatbot(custom_question)
