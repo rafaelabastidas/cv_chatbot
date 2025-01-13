@@ -54,7 +54,7 @@ generation_config = {
 model = genai.GenerativeModel(model_name='gemini-1.5-flash', generation_config=generation_config)
 
 cv_prompt = f"""
-You are a CV assistant. You will answer questions based on the CV provided below.
+You are a CV assistant. You will answer questions based on the CV provided below that belongs to Rafaela Bastidas Ripalda.
 
 {cv_doc}
 """
@@ -78,17 +78,6 @@ Let's get started!
 # Input box for user questions
 question = st.text_input("Ask a question about the CV:")
 
-# Examples of questions to guide users
-st.markdown("""
-### Example Questions:
-- What is Rafaela's educational background?
-- What are Rafaela's key skills in data science?
-- Can you summarize her professional experience?
-- Has Rafaela worked with multilateral development banks? If so, in what capacity?
-- What are her expertise areas in econometrics and data science?
-- Can you provide more details about her research at the IDB?
-- What programming languages does Rafaela know?
-""")
 
 # Display the answer if a question is provided
 if question:
