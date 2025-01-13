@@ -70,6 +70,7 @@ st.title("CV Chatbot: Rafaela Bastidas Ripalda 🌟")
 st.markdown("""
 Hello! 👋 I'm the personal chatbot of **Rafaela Bastidas Ripalda**, an economist and data scientist passionate about analyzing and solving complex problems.  
 📄 Feel free to ask me anything about her experience, skills, or professional background, and I'll be happy to assist you.  
+If you'd like to take a closer look at her CV, you can find it [here](https://rafaelabastidas.github.io/files/CV.pdf).  
 Let's get started!
 """)
 
