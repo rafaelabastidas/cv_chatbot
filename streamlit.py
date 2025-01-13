@@ -75,7 +75,7 @@ Let's get started!
 
 
 # Input box for user questions
-question = st.text_input("Ask a question about the CV:")
+#question = st.text_input("Ask a question about the CV:")
 
 # Display the answer if a question is provided
 if question:
