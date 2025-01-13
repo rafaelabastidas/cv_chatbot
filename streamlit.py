@@ -95,7 +95,7 @@ if example_question != "Select an example question...":
 
 # Input box for custom user questions
 st.markdown("### Or ask your own question:")
-custom_question = st.text_input("Ask a question about Rafaela's CV:")
+custom_question = st.text_input("Ask a question about Rafaela's CV (if you prefer to ask a question in spanish, please feel free to do so):")
 
 # Process the user question
 if custom_question:
