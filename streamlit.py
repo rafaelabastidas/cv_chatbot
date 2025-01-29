@@ -9,7 +9,7 @@ from PyPDF2 import PdfReader
 import google.generativeai as genai
 
 # Step 1: Download and extract the CV text
-url = "https://rafaelabastidas.github.io/files/CV.pdf"
+url = "https://www.imf.org/-/media/Files/Publications/CR/2025/English/1nerea2025001-print-pdf.ashx"
 response = requests.get(url)
 
 with BytesIO(response.content) as pdf_file:
