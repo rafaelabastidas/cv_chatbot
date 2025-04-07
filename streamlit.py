@@ -77,7 +77,7 @@ If you'd like to take a closer look at her CV, you can find it [here](https://ra
 # Dropdown menu for example questions
 #st.markdown("### Example Questions:")
 example_question = st.selectbox(
-    "Select a question to see the answer:",
+    #"Select a question to see the answer:",
     [
         "Select an example question...",
         "What is Rafaela's educational background?",
