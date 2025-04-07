@@ -66,7 +66,8 @@ def query_cv_chatbot(question):
     return generated_answer
 
 # Step 3: Create the Streamlit app
-st.title("Rafaela Bastidas Ripalda\nCV Chatbot")
+st.title("Rafaela Bastidas Ripalda")
+st.title("CV Chatbot")
 st.markdown("""
 Hello! 👋 I'm the personal chatbot of **Rafaela Bastidas Ripalda**.
 Feel free to ask me anything about her experience, skills, or professional background, and I'll be happy to assist you.  
