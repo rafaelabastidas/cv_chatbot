@@ -73,12 +73,20 @@ Feel free to ask me anything about her experience, skills, or professional backg
 If you'd like to take a closer look at her CV, you can find it [here](https://rafaelabastidas.github.io/files/CV.pdf).  
 """)
 
+# Input box for custom user questions
+st.markdown("### Ask your own question:")
+custom_question = st.text_input("Ask a question about Rafaela's CV (if you prefer to ask a question in spanish, please feel free to do so):")
+
+# Process the user question
+if custom_question:
+    custom_answer = query_cv_chatbot(custom_question)
+    st.markdown(f"**Answer:** {custom_answer}")
 
 # Dropdown menu for example questions
 #st.markdown("### Example Questions:")
 example_question = st.selectbox(
     #"Select a question to see the answer:",
-    "",
+    "Or",
     [
         "Select an example question...",
         "What is Rafaela's educational background?",
@@ -92,14 +100,7 @@ if example_question != "Select an example question...":
     answer = query_cv_chatbot(example_question)
     st.markdown(f"**Answer:** {answer}")
 
-# Input box for custom user questions
-st.markdown("### Ask your own question:")
-custom_question = st.text_input("Ask a question about Rafaela's CV (if you prefer to ask a question in spanish, please feel free to do so):")
 
-# Process the user question
-if custom_question:
-    custom_answer = query_cv_chatbot(custom_question)
-    st.markdown(f"**Answer:** {custom_answer}")
 
 
 
