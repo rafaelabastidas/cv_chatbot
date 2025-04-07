@@ -69,13 +69,13 @@ def query_cv_chatbot(question):
 # Streamlit App UI
 # -------------------------------
 st.markdown("""
-<h1 style='text-align: center; font-size: 2.5rem;'>📄 Rafaela Bastidas Ripalda</h1>
+<h1 style='text-align: center; font-size: 2.5rem;'>Rafaela Bastidas Ripalda</h1>
 <h2 style='text-align: center; color: gray;'>CV Chatbot Assistant</h2>
 """, unsafe_allow_html=True)
 
 st.markdown("""
 <div style='text-align: center; font-size: 1.1rem;'>
-👋 Welcome! I'm a chatbot powered by Gemini, trained to answer questions about Rafaela's CV.<br>
+Welcome! I'm a chatbot powered by Gemini, trained to answer questions about Rafaela's CV.<br>
 You can explore her profile by asking your own question, or choose a sample one below.<br><br>
 📄 You can also view her CV directly <a href="https://rafaelabastidas.github.io/files/CV.pdf" target="_blank">here</a>.
 </div>
@@ -84,7 +84,7 @@ You can explore her profile by asking your own question, or choose a sample one 
 st.divider()
 
 # Example Questions
-with st.expander("💡 Example Questions (click to expand)"):
+with st.expander("Example Questions (click to expand)"):
     example_question = st.selectbox(
         "Choose one to get started:",
         [
@@ -100,7 +100,7 @@ with st.expander("💡 Example Questions (click to expand)"):
         st.success(query_cv_chatbot(example_question))
 
 # Custom Question
-st.markdown("### ✏️ Ask your own question:")
+st.markdown("### Ask your own question:")
 user_input = st.text_input("Type your question here (you can ask in English or Spanish):")
 
 if user_input:
