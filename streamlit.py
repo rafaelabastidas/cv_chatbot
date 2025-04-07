@@ -66,17 +66,16 @@ def query_cv_chatbot(question):
     return generated_answer
 
 # Step 3: Create the Streamlit app
-st.title("CV Chatbot: Rafaela Bastidas Ripalda 🌟")
+st.title("CV Chatbot: Rafaela Bastidas Ripalda")
 st.markdown("""
 Hello! 👋 I'm the personal chatbot of **Rafaela Bastidas Ripalda**.
 Feel free to ask me anything about her experience, skills, or professional background, and I'll be happy to assist you.  
 If you'd like to take a closer look at her CV, you can find it [here](https://rafaelabastidas.github.io/files/CV.pdf).  
-Let's get started!
 """)
 
 
 # Dropdown menu for example questions
-st.markdown("### Example Questions:")
+#st.markdown("### Example Questions:")
 example_question = st.selectbox(
     "Select a question to see the answer:",
     [
@@ -93,7 +92,7 @@ if example_question != "Select an example question...":
     st.markdown(f"**Answer:** {answer}")
 
 # Input box for custom user questions
-st.markdown("### Or ask your own question:")
+st.markdown("### Ask your own question:")
 custom_question = st.text_input("Ask a question about Rafaela's CV (if you prefer to ask a question in spanish, please feel free to do so):")
 
 # Process the user question
