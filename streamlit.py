@@ -4,39 +4,36 @@ from io import BytesIO
 from PyPDF2 import PdfReader
 import google.generativeai as genai
 from google.api_core import exceptions as gexc
-
 import streamlit as st
 import requests
-import google.generativeai as genai
-from google.api_core import exceptions as gexc
+import google.generativeai as genai  # lo dejamos para futuros usos, pero generación será por REST
 
-st.write({"google-generativeai": getattr(genai, "__version__", "unknown")})
+API_KEY = st.secrets["GEMINI_API_KEY"]
+MODEL_NAME = st.secrets.get("GEMINI_MODEL", "gemini-1.5-pro-latest")  # usa uno de tu lista
 
-API_KEY = st.secrets.get("GEMINI_API_KEY")
-if not API_KEY:
-    st.error("Falta GEMINI_API_KEY en st.secrets")
-    st.stop()
+GEN_CFG = {
+    "temperature": 0,
+    "top_p": 1,
+    "top_k": 1,
+    "max_output_tokens": 1000,
+}
 
-# 1) Chequeo rápido del formato del key (AI Studio keys suelen empezar con 'AIza')
-st.write({"api_key_prefix": API_KEY[:4]})
+REST_GENERATE_URL = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL_NAME}:generateContent"
 
-# 2) Ping REST a /models (no pasa por el SDK)
-REST_URL = "https://generativelanguage.googleapis.com/v1beta/models"
-r = requests.get(REST_URL, params={"key": API_KEY}, timeout=20)
-st.write({"rest_models_status": r.status_code})
-st.code(r.text[:1000])  # muestra las primeras ~1000 chars
-
-# 3) Si REST funciona, listar modelos via SDK
-try:
-    genai.configure(api_key=API_KEY)
-    avail = [
-        m.name.split("/")[-1]
-        for m in genai.list_models()
-        if "generateContent" in getattr(m, "supported_generation_methods", [])
-    ]
-    st.write({"available_models_via_sdk": avail})
-except Exception as e:
-    st.error(f"SDK list_models error: {type(e).__name__}: {e}")
+def gemini_generate_rest(prompt: str) -> str:
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": GEN_CFG
+    }
+    r = requests.post(REST_GENERATE_URL, params={"key": API_KEY}, json=payload, timeout=60)
+    if not r.ok:
+        return f"[ERROR] REST {r.status_code}: {r.text[:500]}"
+    data = r.json()
+    try:
+        return data["candidates"][0]["content"]["parts"][0]["text"].strip()
+    except Exception:
+        # devuélvelo crudo si el formato cambia
+        return str(data)[:1000]
 
 
 
@@ -122,17 +119,8 @@ CV:
 
 def query_cv_chatbot(question: str) -> str:
     full_prompt = f"{cv_prompt}\n\nQuestion: {question}\nAnswer:"
-    try:
-        resp = model.generate_content(full_prompt)
-        # En versiones recientes puedes usar resp.text directamente
-        return (resp.text or "").strip()
-    except gexc.NotFound:
-        # Si justo el modelo no existe para tu clave, haz fallback duro
-        fallback = genai.GenerativeModel("gemini-1.5-flash", generation_config=GEN_CFG)
-        resp = fallback.generate_content(full_prompt)
-        return (resp.text or "").strip()
-    except Exception as e:
-        return f"[ERROR] {type(e).__name__}: {e}"
+    return gemini_generate_rest(full_prompt)
+
 
 # -------------------------------
 # Streamlit App UI
