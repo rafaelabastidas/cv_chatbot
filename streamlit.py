@@ -5,6 +5,41 @@ from PyPDF2 import PdfReader
 import google.generativeai as genai
 from google.api_core import exceptions as gexc
 
+import streamlit as st
+import requests
+import google.generativeai as genai
+from google.api_core import exceptions as gexc
+
+st.write({"google-generativeai": getattr(genai, "__version__", "unknown")})
+
+API_KEY = st.secrets.get("GEMINI_API_KEY")
+if not API_KEY:
+    st.error("Falta GEMINI_API_KEY en st.secrets")
+    st.stop()
+
+# 1) Chequeo rápido del formato del key (AI Studio keys suelen empezar con 'AIza')
+st.write({"api_key_prefix": API_KEY[:4]})
+
+# 2) Ping REST a /models (no pasa por el SDK)
+REST_URL = "https://generativelanguage.googleapis.com/v1beta/models"
+r = requests.get(REST_URL, params={"key": API_KEY}, timeout=20)
+st.write({"rest_models_status": r.status_code})
+st.code(r.text[:1000])  # muestra las primeras ~1000 chars
+
+# 3) Si REST funciona, listar modelos via SDK
+try:
+    genai.configure(api_key=API_KEY)
+    avail = [
+        m.name.split("/")[-1]
+        for m in genai.list_models()
+        if "generateContent" in getattr(m, "supported_generation_methods", [])
+    ]
+    st.write({"available_models_via_sdk": avail})
+except Exception as e:
+    st.error(f"SDK list_models error: {type(e).__name__}: {e}")
+
+
+
 # -------------------------------
 # Load and process the CV PDF
 # -------------------------------
