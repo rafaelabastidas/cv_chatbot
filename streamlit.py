@@ -5,6 +5,52 @@ from io import BytesIO
 from PyPDF2 import PdfReader
 import google.generativeai as genai
 
+
+
+
+from google.api_core import exceptions as gexc
+
+st.write({"google-generativeai": pkg_resources.get_distribution("google-generativeai").version})
+
+API_KEY = st.secrets.get("GEMINI_API_KEY")
+if not API_KEY:
+    st.error("Falta GEMINI_API_KEY en st.secrets")
+    st.stop()
+
+genai.configure(api_key=API_KEY)
+
+# Lista de modelos que permiten generateContent
+available = [
+    m.name.split("/")[-1]
+    for m in genai.list_models()
+    if "generateContent" in getattr(m, "supported_generation_methods", [])
+]
+st.write({"available_models": available})
+
+MODEL_NAME = st.secrets.get("GEMINI_MODEL", "gemini-1.5-flash")
+st.write({"configured_model": MODEL_NAME})
+
+if MODEL_NAME not in available:
+    st.error(f"El modelo '{MODEL_NAME}' no está disponible ahora. Usa uno de: {available}")
+    st.stop()
+
+model = genai.GenerativeModel(MODEL_NAME)
+
+def safe_generate(prompt):
+    try:
+        return model.generate_content(prompt)
+    except gexc.NotFound as e:
+        st.error(f"NotFound: el modelo '{MODEL_NAME}' no existe/ya no está disponible para tu clave.")
+        st.code(''.join(traceback.format_exc()))
+        raise
+    except Exception as e:
+        st.error(str(e))
+        st.code(''.join(traceback.format_exc()))
+        raise
+
+resp = safe_generate("Say hello in one short sentence.")
+st.success(resp.text)
+
 # -------------------------------
 # Load and process the CV PDF
 # -------------------------------
