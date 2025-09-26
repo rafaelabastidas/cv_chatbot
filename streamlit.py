@@ -13,14 +13,6 @@ import google.generativeai as genai
 st.set_page_config(page_title="CV Chatbot - Rafaela Bastidas Ripalda", page_icon="📄", layout="centered")
 
 API_KEY = st.secrets.get("GEMINI_API_KEY", "").strip()
-if not API_KEY:
-    st.error(
-        "Falta GEMINI_API_KEY en Streamlit Secrets.\n\n"
-        "Ve a Manage App → Settings → Secrets y agrega:\n"
-        'GEMINI_API_KEY = "AIza..."\n'
-        'GEMINI_MODEL = "gemini-2.5-flash-lite"  # opcional\n'
-    )
-    st.stop()
 
 # Modelos con buena probabilidad de free tier activo (orden de preferencia)
 CANDIDATE_MODELS = [
