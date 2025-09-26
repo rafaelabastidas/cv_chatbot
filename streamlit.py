@@ -121,18 +121,6 @@ def pick_working_model():
             chosen = m
     return diag, chosen
 
-with st.expander("Diagnóstico modelos (free tier)"):
-    st.caption("Probando modelos con una llamada mínima para detectar uno utilizable con tu API key…")
-    diag, WORKING_MODEL = pick_working_model()
-    st.dataframe(diag, use_container_width=True)
-    if not WORKING_MODEL:
-        st.error(
-            "Ningún modelo respondió OK. Tu API key no tiene cuota (429) o acceso (404).\n"
-            "Soluciones: crea una nueva API key en Google AI Studio o activa billing en GCP."
-        )
-        st.stop()
-    else:
-        st.success(f"Usando modelo: {WORKING_MODEL}")
 
 def gemini_generate(prompt: str, model_name: str = None) -> str:
     """Generación por REST con manejo claro de errores/cuota."""
