@@ -6,64 +6,6 @@ from PyPDF2 import PdfReader
 import google.generativeai as genai
 
 
-import streamlit as st
-import traceback
-import google.generativeai as genai
-from google.api_core import exceptions as gexc
-
-# Mostrar versión del SDK sin pkg_resources
-st.write({"google-generativeai": getattr(genai, "__version__", "unknown")})
-
-# Configurar clave
-API_KEY = st.secrets.get("GEMINI_API_KEY")
-if not API_KEY:
-    st.error("Falta GEMINI_API_KEY en st.secrets")
-    st.stop()
-
-genai.configure(api_key=API_KEY)
-
-# Listar modelos disponibles para generateContent
-try:
-    available = [
-        m.name.split("/")[-1]
-        for m in genai.list_models()
-        if "generateContent" in getattr(m, "supported_generation_methods", [])
-    ]
-except Exception as e:
-    st.error("No se pudo listar modelos. ¿Clave o conectividad?")
-    st.code("".join(traceback.format_exc()))
-    available = []
-
-st.write({"available_models": available})
-
-# Elegir modelo (desde secrets o fallback)
-MODEL_NAME = st.secrets.get("GEMINI_MODEL", "gemini-1.5-flash")
-if available and MODEL_NAME not in available:
-    st.warning(f"Modelo '{MODEL_NAME}' no disponible. Usando fallback.")
-    MODEL_NAME = "gemini-1.5-flash"
-
-model = genai.GenerativeModel(MODEL_NAME)
-
-def safe_generate(prompt: str):
-    try:
-        return model.generate_content(prompt).text
-    except gexc.NotFound:
-        st.error(f"NotFound: el modelo '{MODEL_NAME}' no existe/ya no está disponible para tu clave.")
-        st.code("".join(traceback.format_exc()))
-        # último intento con fallback duro
-        try:
-            return genai.GenerativeModel("gemini-1.5-flash").generate_content(prompt).text
-        except Exception:
-            raise
-    except Exception as e:
-        st.error(str(e))
-        st.code("".join(traceback.format_exc()))
-        raise
-
-# Smoke test
-st.success(safe_generate("Di hola en una oración."))
-
-
 # -------------------------------
 # Load and process the CV PDF
 # -------------------------------
