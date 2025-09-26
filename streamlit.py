@@ -7,7 +7,8 @@ import google.generativeai as genai
 
 
 
-
+import google.generativeai as genai
+st.write({"google-generativeai": getattr(genai, "__version__", "versión desconocida")})
 from google.api_core import exceptions as gexc
 
 st.write({"google-generativeai": pkg_resources.get_distribution("google-generativeai").version})
